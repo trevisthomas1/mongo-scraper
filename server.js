@@ -91,8 +91,8 @@ app.post("/save", function (req, res) {
     });
 });
 
-// Route 2
-app.get("/save", function (req, res) {
+// Route 3
+app.get("/saved", function (req, res) {
 
     db.saved_articles.find({}, function (err, found) {
         if (err) {
