@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MLB News Scraper</title>
+
+  <link rel="shortcut icon" href="//www.mlbstatic.com/mlb.com/builds/site-core/a959c56a4cc719b17b464749570b5c3543959950_1533934366/images/favicon.png">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-wrapper" style="background-color: #d0052c; padding-bottom: 75px;">
+    <a href="#" class="brand-logo center">MLB News Scraper</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="/save">Saved</a></li>
+      <li><a href="#">Notes</a></li>
+      <li><a href="/all">JSON</a></li>
+    </ul>
+    <a id="scrape" class="waves-effect waves-light btn-large" style="margin-left: 20px; background-color: #02276b;">Scrape</a>
+  </div>
+</nav>
+
+<!-- Background image -->
+<div id="bg">
+  <img src="./images/attPark.jpg" width="100%" height="200%" alt="">
+</div>
+
+<!-- Aritcles container -->
+<div class="container">
+  <div class="section">
+    <div id="articles" class="center-align">
+      <h1 class="center-align">Click Scrape to see the latest articles.</h1>
+    </div>
+  </div>
+</div>
+
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+
+</html>
