@@ -19,5 +19,8 @@
  #articles, #faves {
    display: flex;
    flex-wrap: wrap;
-   background-color: white;
+ }
+
+ .btn-small {
+   margin-bottom: 10px;
  }

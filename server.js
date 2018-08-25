@@ -104,6 +104,47 @@ app.get("/saved", function (req, res) {
 
 });
 
+// Route 3
+app.get("/notes", function (req, res) {
+
+    db.article_notes.find({}, function (err, found) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(found);
+        }
+    });
+
+});
+
+// Route 4
+app.get("/remove/saved/:id", function (req, res) {
+
+    db.saved_articles.remove(
+        { 
+            _id: mongojs.ObjectID(req.params.id)
+        }, 
+        function (error, removed) {
+            if (error) {
+                console.log(error);
+                res.send(error);
+            }
+            else {
+                console.log(removed);
+                res.send(removed);
+            }
+        }
+    );
+});
+
+
+
+
+
+
+
+
+
 
 app.listen(3000, function () {
     console.log("App running on port 3000.");
