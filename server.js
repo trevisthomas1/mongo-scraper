@@ -1,5 +1,5 @@
 const express = require("express");
-const mongojs = require("mongojs");
+var mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const request = require("request");
@@ -18,15 +18,20 @@ app.use(
 );
 app.use(express.static("public"));
 
-const databaseUrl = "mongo_scraper";
-const collections = ["scraped_data" , "saved_articles", "article_notes"];
+// const databaseUrl = "mongo_scraper";
+// const collections = ["scraped_data" , "saved_articles", "article_notes"];
+// const db = mongojs(databaseUrl, collections);
 
-const db = mongojs(databaseUrl, collections);
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongo_scraper";
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
+var db = require("./models");
 
 db.on("error", function (error) {
     console.log("Database Error:", error);
 });
-
 
 
 app.get("/", function (req, res) {
@@ -205,6 +210,6 @@ app.get("/delete/note/:id", function (req, res) {
 
 
 
-app.listen(PORT, function () {
-    console.log("App running on port 3000.");
+app.listen(MONGODB_URI, function () {
+    console.log(`App running on port: ${MONGODB_URI}`);
 });
