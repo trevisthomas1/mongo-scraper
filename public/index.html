@@ -20,8 +20,7 @@
     <a href="#" class="brand-logo center">MLB News Scraper</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="#" id="savedArticles">Saved</a></li>
-      <li><a href="#">Notes</a></li>
-      <li><a href="/all">JSON</a></li>
+      <li><a href="/all">JSON Scraped</a></li>
     </ul>
     <a id="scrape" class="waves-effect waves-light btn-large" style="margin-left: 20px; background-color: #02276b;">Scrape</a>
   </div>
@@ -29,23 +28,49 @@
 
 <!-- Background image -->
 <div id="bg">
-  <img src="./images/attPark.jpg" width="100%" height="200%" alt="">
+  <img src="./images/attPark.jpg" width="100%" height="100%" alt="">
 </div>
 
 <!-- Aritcles container -->
-<div class="container">
+<div class="container center center-block">
   <div class="section">
-    <div id="articles" class="center-align">
-      <h1 class="center-align">Click Scrape to see the latest articles.</h1>
+    <div id="articles">
+      <h1>Click Scrape to see the latest articles.</h1>
     </div>
   </div>
 </div>
+
+<!-- Modal container -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <h4 id="Mheader" class="center center-block"></h4>
+    <p id="Mtext" class="center center-block"></p>
+    <div>
+      <ul class="collection" id="savedNotes">
+      </ul>
+
+    </div>
+    <textarea id="note" class="materialize-textarea" ></textarea>
+    <label for="note">Note</label>
+    <a href="#!" id="saveNote" class="waves-effect right btn" style="background-color: #02276b;">Save Note</a>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">close</a>
+  </div>
+</div>
+
 
 
 <!--  Scripts-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <script src="app.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+</script>
 
 </body>
 
