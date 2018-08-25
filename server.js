@@ -5,6 +5,8 @@ const logger = require("morgan");
 const request = require("request");
 const cheerio = require("cheerio");
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 
 app.use(logger("dev"));
@@ -203,6 +205,6 @@ app.get("/delete/note/:id", function (req, res) {
 
 
 
-app.listen(3000, function () {
+app.listen(PORT, function () {
     console.log("App running on port 3000.");
 });
