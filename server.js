@@ -5,7 +5,7 @@ const logger = require("morgan");
 const request = require("request");
 const cheerio = require("cheerio");
 
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -18,30 +18,28 @@ app.use(
 );
 app.use(express.static("public"));
 
+app.use(bodyParser.json());
+
 // const databaseUrl = "mongo_scraper";
 // const collections = ["scraped_data" , "saved_articles", "article_notes"];
 // const db = mongojs(databaseUrl, collections);
 
+const db = require("./models");
+
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongo_scraper";
 
-mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
-
-var db = require("./models");
-
-db.on("error", function (error) {
-    console.log("Database Error:", error);
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true
 });
-
 
 app.get("/", function (req, res) {
     res.send(index.html);
 });
 
 
-// Route 1
+// Access Scraped Data Route
 app.get("/all", function (req, res) {
-    db.scraped_data.find({}, function (err, found) {
+    db.Scraped.find({}, function (err, found) {
         if (err) {
             console.log(err);
         } else {
@@ -51,7 +49,7 @@ app.get("/all", function (req, res) {
 });
 
 
-// Route 2
+// Execute Scrape Route
 app.get("/scrape", function (req, res) {
     request("https://www.mlb.com/", function (error, response, html) {
 
@@ -62,7 +60,7 @@ app.get("/scrape", function (req, res) {
             const link = $(this).children("a").attr("href");
 
             if (title && link) {
-                db.scraped_data.save({
+                db.Scraped.save({
                     title: title,
                     link: link
                 },
@@ -82,27 +80,26 @@ app.get("/scrape", function (req, res) {
 });
 
 
-// Route 2
+// Execute Save Article Route
 app.post("/save", function (req, res) {
     console.log(req.body);
-    // Insert the note into the notes collection
-    db.saved_articles.insert(req.body, function (error, saved) {
-        // Log any errors
+
+    db.Saved.insert(req.body, function (error, saved) {
+
         if (error) {
             console.log(error);
         }
         else {
-            // Otherwise, send the note back to the browser
-            // This will fire off the success function of the ajax request
+
             res.send(saved);
         }
     });
 });
 
-// Route 3
+// Access Saved Articles Route
 app.get("/saved", function (req, res) {
 
-    db.saved_articles.find({}, function (err, found) {
+    db.Saved.find({}, function (err, found) {
         if (err) {
             console.log(err);
         } else {
@@ -112,12 +109,12 @@ app.get("/saved", function (req, res) {
 
 });
 
-// Route
+// Execute Save Note Route
 app.post("/saveNote", function (req, res) {
 
     console.log(req.body);
 
-    db.article_notes.insert(req.body, function (error, saved) {
+    db.Notes.insert(req.body, function (error, saved) {
         if (error) {
             console.log(error);
         }
@@ -128,10 +125,10 @@ app.post("/saveNote", function (req, res) {
     });
 });
 
-// Route 3
+// Access Saved Notes Route
 app.get("/notes", function (req, res) {
 
-    db.article_notes.find({}, function (err, found) {
+    db.Notes.find({}, function (err, found) {
         if (err) {
             console.log(err);
         } else {
@@ -141,10 +138,10 @@ app.get("/notes", function (req, res) {
 
 });
 
-// Route 4
+// Execute Remove Saved Article Route
 app.get("/remove/saved/:id", function (req, res) {
 
-    db.saved_articles.remove(
+    db.Saved.remove(
         { 
             _id: mongojs.ObjectID(req.params.id)
         }, 
@@ -161,10 +158,10 @@ app.get("/remove/saved/:id", function (req, res) {
     );
 });
 
-// Route 400
+// Execute Find Article Note Route
 app.get("/find/:id", function (req, res) {
 
-    db.article_notes.find(
+    db.Notes.find(
         {
             articleid: req.params.id
         },
@@ -183,22 +180,21 @@ app.get("/find/:id", function (req, res) {
     );
 });
 
-// Route 1000
+// Execute Remove Note Route
 app.get("/delete/note/:id", function (req, res) {
-    // Remove a note using the objectID
-    db.article_notes.remove(
+
+    db.Notes.remove(
         {
             _id: mongojs.ObjectID(req.params.id)
         },
         function (error, removed) {
-            // Log any errors from mongojs
+
             if (error) {
                 console.log(error);
                 res.send(error);
             }
             else {
-                // Otherwise, send the mongojs response to the browser
-                // This will fire off the success function of the ajax request
+
                 console.log(removed);
                 res.send(removed);
             }
@@ -207,9 +203,7 @@ app.get("/delete/note/:id", function (req, res) {
 });
 
 
-
-
-
+// Server Running Notification
 app.listen(MONGODB_URI, function () {
     console.log(`App running on port: ${MONGODB_URI}`);
 });

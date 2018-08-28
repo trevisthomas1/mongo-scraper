@@ -64,7 +64,6 @@ $(document).on("click", ".saveArticle", function () {
     })
         .then(function (data) {
             console.log(data);
-            // getFaves();
         });
 
     return false;
