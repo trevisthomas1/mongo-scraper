@@ -32,8 +32,8 @@ function renderSavedCard(data) {
 
 };
 
-// Scrape Function
-$("#scrape").on("click", function () {
+// See Scraped Function
+$("#seeScraped").on("click", function () {
 
     $("#articles").empty();
 
@@ -64,6 +64,7 @@ $(document).on("click", ".saveArticle", function () {
     })
         .then(function (data) {
             console.log(data);
+            // getFaves();
         });
 
     return false;
