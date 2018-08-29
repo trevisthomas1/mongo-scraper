@@ -21,7 +21,9 @@ app.use(express.static("public"));
 const databaseUrl = "mongo_scraper";
 const collections = ["scraped_data" , "saved_articles", "article_notes"];
 
-const db = mongojs(databaseUrl, collections);
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+const db = mongojs(MONGODB_URI, collections);
 
 db.on("error", function (error) {
     console.log("Database Error:", error);
