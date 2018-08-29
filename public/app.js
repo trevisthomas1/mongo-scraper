@@ -33,13 +33,11 @@ function renderSavedCard(data) {
 };
 
 // See Scraped Function
-$("#seeScraped").on("click", function () {
+$("#scrape").on("click", function () {
 
     $("#articles").empty();
 
-    $.getJSON("/all", function (data) {
-
-        console.log(data);
+    $.getJSON("/scrape", function (data) {
 
         for (let i = 0; i < data.length; i++) {
             renderScrapedCard(data[i]);

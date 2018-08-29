@@ -19,7 +19,7 @@ app.use(
 app.use(express.static("public"));
 
 const databaseUrl = "mongo_scraper";
-const collections = ["scraped_data" , "saved_articles", "article_notes"];
+const collections = ["scraped_data", "saved_articles", "article_notes"];
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
@@ -54,31 +54,20 @@ app.get("/scrape", function (req, res) {
 
         const $ = cheerio.load(html);
 
+        const results = [];
+
         $(".p-headline-stack__headline").each(function (i, element) {
             const title = $(this).children("a").text();
             const link = $(this).children("a").attr("href");
 
-            if (title && link) {
-                db.scraped_data.save({
-                    title: title,
-                    link: link
-                },
-                    function (error, saved) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log(saved);
-                            res.json(saved);
-                        }
-                    });
-            }
+            results.push({
+                title: title,
+                link: link
+            });
         });
+        res.send(results);
     });
-
-    res.send("Scrape complete");
-
 });
-
 
 // Route 2
 app.post("/save", function (req, res) {
@@ -143,9 +132,9 @@ app.get("/notes", function (req, res) {
 app.get("/remove/saved/:id", function (req, res) {
 
     db.saved_articles.remove(
-        { 
+        {
             _id: mongojs.ObjectID(req.params.id)
-        }, 
+        },
         function (error, removed) {
             if (error) {
                 console.log(error);
